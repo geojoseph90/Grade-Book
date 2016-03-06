@@ -1,0 +1,11 @@
+package com.gradebook.factories;
+
+public class HTMLGradebookGenerator implements GradebookGenerator {
+
+	@Override
+	public boolean generateGradebook() {
+		// write the logic for generating the gradebook for the student
+		return true;
+	}
+	
+}

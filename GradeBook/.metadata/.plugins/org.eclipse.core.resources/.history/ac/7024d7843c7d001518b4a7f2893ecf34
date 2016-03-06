@@ -1,0 +1,104 @@
+
+package com.gradebook.DO;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Generated;
+import org.codehaus.jackson.annotate.JsonAnyGetter;
+import org.codehaus.jackson.annotate.JsonAnySetter;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+    "Name",
+    "ID",
+    "AssignedWork"
+})
+public class Student {
+
+    @JsonProperty("Name")
+    private String Name;
+    @JsonProperty("ID")
+    private String ID;
+    @JsonProperty("AssignedWork")
+    private List<com.gradebook.DO.AssignedWork> AssignedWork = new ArrayList<com.gradebook.DO.AssignedWork>();
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    /**
+     * 
+     * @return
+     *     The Name
+     */
+    @JsonProperty("Name")
+    public String getName() {
+        return Name;
+    }
+
+    /**
+     * 
+     * @param Name
+     *     The Name
+     */
+    @JsonProperty("Name")
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    /**
+     * 
+     * @return
+     *     The ID
+     */
+    @JsonProperty("ID")
+    public String getID() {
+        return ID;
+    }
+
+    /**
+     * 
+     * @param ID
+     *     The ID
+     */
+    @JsonProperty("ID")
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    /**
+     * 
+     * @return
+     *     The AssignedWork
+     */
+    @JsonProperty("AssignedWork")
+    public List<com.gradebook.DO.AssignedWork> getAssignedWork() {
+        return AssignedWork;
+    }
+
+    /**
+     * 
+     * @param AssignedWork
+     *     The AssignedWork
+     */
+    @JsonProperty("AssignedWork")
+    public void setAssignedWork(List<com.gradebook.DO.AssignedWork> AssignedWork) {
+        this.AssignedWork = AssignedWork;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
+}

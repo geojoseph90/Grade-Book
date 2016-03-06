@@ -1,0 +1,62 @@
+package com.gradebook.client;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.gradebook.factories.FactoryProducer;
+import com.gradebook.factories.GradebookFactory;
+import com.gradebook.factories.GradebookGeneratorFactory;
+
+public class MainClass {
+	public static void main(String argsp[]) {
+		System.out.println("Enter the student type \n 1. Graduate \n 2. Undergraduate \n");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String studentType = null;
+		String outputType = null;
+		List<String> availableOutputTypes = new ArrayList<>(Arrays.asList("html","xml","csv"));
+		boolean resultOfReadAndProcess = false;
+		boolean enableOutputMenu = false;
+		boolean enableStudentMenu = true;
+		try {
+			studentType = br.readLine();
+		} catch (IOException e) {
+			System.out.println("User input reading operation failed");
+			e.printStackTrace();
+		}
+		FactoryProducer producer = new FactoryProducer();
+		GradebookFactory gradebookFactory = producer.getFactory(studentType);
+		if(studentType.trim().toLowerCase() == "graduate") {
+			resultOfReadAndProcess = gradebookFactory.readGrades("JSON");
+		}
+		else if(studentType.trim().toLowerCase() == "undergraduate"){
+			resultOfReadAndProcess = gradebookFactory.readGrades("XML");
+		}
+			
+		if(resultOfReadAndProcess) {
+			System.out.println("Enter the output format for gradebook. \n HTML \n CSV \n XML \n");
+			try {
+				outputType = br.readLine();
+				if(! availableOutputTypes.contains(outputType.trim().toLowerCase()) ) {
+					System.out.println("Unsupported format. Please try again");
+				}
+				GradebookGeneratorFactory gradeGeneratorFactory = new GradebookGeneratorFactory();
+			} catch (IOException e) {
+				System.out.println("User input reading operation failed");
+				e.printStackTrace();
+			}
+			
+		}
+		else {
+			System.out.println("Problem with the data set. Please check the input files");
+			
+		}
+		GradebookGeneratorFactory gradeGeneratorFactory = new GradebookGeneratorFactory();
+		
+		
+	}
+
+}

@@ -1,0 +1,7 @@
+package com.gradebook.factories;
+
+import com.gradebook.DO.GeneralGradeBook;
+
+public interface GradeCalculator {
+	public boolean calculateGrade(GeneralGradeBook gradeBook);
+}

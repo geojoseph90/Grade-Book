@@ -1,0 +1,6 @@
+package com.gradebook.factories;
+
+
+public interface FileParser {
+	public void parseFile(String fileLocation);
+}

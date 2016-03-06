@@ -1,0 +1,33 @@
+package com.gradebook.DO;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
+public class GradeBookXML {
+	@XmlAttribute(name = "class", required = true)
+	private String classNumber = null;
+	
+	@XmlAttribute(name = "GradingSchema", required = true)
+	private GradingSchemaXML generalGradingSchema	= null;
+	@XmlAttribute(name = "Grades", required = true)
+	private GradesXML generalGrades = null;
+	
+	public String getClassNumber() {
+		return classNumber;
+	}
+	public void setClassNumber(String classNumber) {
+		this.classNumber = classNumber;
+	}
+	public GradingSchemaXML getGeneralGradingSchema() {
+		return generalGradingSchema;
+	}
+	public void setGeneralGradingSchema(GradingSchemaXML generalGradingSchema) {
+		this.generalGradingSchema = generalGradingSchema;
+	}
+	public GradesXML getGeneralGrades() {
+		return generalGrades;
+	}
+	public void setGeneralGrades(GradesXML generalGrades) {
+		this.generalGrades = generalGrades;
+	}
+}

@@ -1,0 +1,30 @@
+package com.gradebook.factories;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.gradebook.DO.AssignedWork;
+import com.gradebook.DO.GradeBook;
+import com.gradebook.DO.GradedWork;
+import com.gradebook.DO.Student;
+
+public class NumberGradeCalculator implements GradeCalculator{
+	private Map<String,Integer> gradedWorkMap = new HashMap<String,Integer>();
+	String category = null;
+	int marks = 0;
+	public boolean calculateGrade(GradeBook gradeBook) {
+		Student student = gradeBook.getGradeBook().getGrades().getStudent();
+		if(student != null) {
+			List<AssignedWork> assignedWorkList = student.getAssignedWork();
+			for(AssignedWork assignedWork : assignedWorkList) {
+				category = assignedWork.getCategory();
+				for(GradedWork gradedWork : assignedWork.getGradedWork()) {
+					gradedWorkMap.put(category, Integer.valueOf(gradedWork.getGrade()));
+				}
+			}
+		}
+		return true;
+	}
+
+}

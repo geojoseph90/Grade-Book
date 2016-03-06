@@ -1,0 +1,71 @@
+package com.gradebook.factories;
+
+import java.beans.XMLEncoder;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gradebook.DO.GeneralAssignedWork;
+import com.gradebook.DO.GeneralGradeBook;
+import com.gradebook.DO.GeneralGradeItem;
+import com.gradebook.DO.GeneralGradedWork;
+import com.gradebook.DO.GeneralGrades;
+import com.gradebook.DO.GeneralGradingSchema;
+import com.gradebook.DO.GeneralStudent;
+
+public class XMLGradebookGenerator implements GradebookGenerator{
+	@Override
+	public boolean generateGradebook(GeneralGradeBook generalGradeBook) {
+		 String fileName = "/Users/geo/Desktop/TestFiles/XMLFile.xml";
+		 generalGradeBook.setClassNumber("CSE 598");
+		 List<GeneralGradeItem> giList = new ArrayList<GeneralGradeItem>();
+		 GeneralGradeItem gi = new GeneralGradeItem();
+		 gi.setCategory("Programming Assignment");
+		 gi.setPrecentage(70);
+		 giList.add(gi);
+		 GeneralGradingSchema gs = new GeneralGradingSchema();
+		 gs.setGradeItemList(giList);
+		 GeneralGrades grade = new GeneralGrades();
+		 generalGradeBook.setGeneralGradingSchema(gs);
+		 List<GeneralStudent> st = new ArrayList<GeneralStudent>();
+		 GeneralStudent stud = new GeneralStudent();
+		 List<GeneralAssignedWork> assignedWork = new  ArrayList<GeneralAssignedWork>();
+		 List<GeneralGradedWork> genGradWork = new  ArrayList<GeneralGradedWork>();
+		 GeneralGradedWork ggw = new GeneralGradedWork();
+		 ggw.setGrade("A");
+		 ggw.setName("Geo");
+		 GeneralAssignedWork genAssiWork = new GeneralAssignedWork();
+		 
+		 genGradWork.add(ggw);
+		 genAssiWork.setGeneralGradedWork(genGradWork);
+		 assignedWork.add(genAssiWork);
+		 stud.setGeneralAssignedWork(assignedWork);
+		 stud.setStudentName("Geo");
+		 stud.setStudentId("1234");
+		 st.add(stud);
+		 grade.setGeneralStudent(st);
+		 generalGradeBook.setGeneralGrades(grade);
+		 
+		 
+		 XMLEncoder encoder;
+		try {
+			encoder = new XMLEncoder(new BufferedOutputStream(
+			          new FileOutputStream(fileName)));
+			 encoder.writeObject(generalGradeBook);
+		     encoder.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		     
+		return true;
+	}
+	
+	public static void main(String args[]) {
+		
+		XMLGradebookGenerator xmlGen = new XMLGradebookGenerator();
+		xmlGen.generateGradebook(new GeneralGradeBook());
+	}
+}

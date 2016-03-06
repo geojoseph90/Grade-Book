@@ -1,0 +1,85 @@
+package com.gradebook.factories;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
+
+import com.gradebook.DO.GeneralAssignedWork;
+import com.gradebook.DO.GeneralGradeBook;
+import com.gradebook.DO.GeneralGradeItem;
+import com.gradebook.DO.GeneralGradedWork;
+import com.gradebook.DO.GeneralGrades;
+import com.gradebook.DO.GeneralGradingSchema;
+import com.gradebook.DO.GeneralStudent;
+
+public class XMLGradebookGenerator implements GradebookGenerator{
+	@Override
+	public boolean generateGradebook(GeneralGradeBook generalGradeBook) {
+		 String userHomeFolder = System.getProperty("user.home");	
+		 String fileName = "/Desktop/GradeBook.xml";
+		 generalGradeBook.setClassNumber("CSE 598");
+		 List<GeneralGradeItem> giList = new ArrayList<GeneralGradeItem>();
+		 GeneralGradeItem gi = new GeneralGradeItem();
+		 gi.setCategory("Programming Assignment");
+		 gi.setPrecentage(70);
+		 giList.add(gi);
+		 GeneralGradingSchema gs = new GeneralGradingSchema();
+		 gs.setGradeItemList(giList);
+		 GeneralGrades grade = new GeneralGrades();
+		 generalGradeBook.setGeneralGradingSchema(gs);
+		 List<GeneralStudent> st = new ArrayList<GeneralStudent>();
+		 GeneralStudent stud = new GeneralStudent();
+		 List<GeneralAssignedWork> assignedWork = new  ArrayList<GeneralAssignedWork>();
+		 List<GeneralGradedWork> genGradWork = new  ArrayList<GeneralGradedWork>();
+		 GeneralGradedWork ggw = new GeneralGradedWork();
+		 ggw.setGrade("A");
+		 ggw.setName("Geo");
+		 GeneralAssignedWork genAssiWork = new GeneralAssignedWork();
+		 
+		 genGradWork.add(ggw);
+		 genAssiWork.setGeneralGradedWork(genGradWork);
+		 assignedWork.add(genAssiWork);
+		 stud.setGeneralAssignedWork(assignedWork);
+		 stud.setStudentName("Geo");
+		 stud.setStudentId("1234");
+		 st.add(stud);
+		 grade.setGeneralStudent(st);
+		 generalGradeBook.setGeneralGrades(grade);
+		
+		 JAXBContext jc;
+		 FileOutputStream fo = null;
+		 try {
+			fo = new FileOutputStream(new File(userHomeFolder.concat(fileName)),false);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		 
+		try {
+			jc = JAXBContext.newInstance(GeneralGradeBook.class);
+			Marshaller marshaller = jc.createMarshaller();
+		    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		    JAXBElement<GeneralGradeBook> rootElement = new JAXBElement<GeneralGradeBook>(new QName("GradeBook"), GeneralGradeBook.class, generalGradeBook);
+		    marshaller.marshal(rootElement, fo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		 
+		     
+		return true;
+	}
+	
+	public static void main(String args[]) {
+		
+		XMLGradebookGenerator xmlGen = new XMLGradebookGenerator();
+		xmlGen.generateGradebook(new GeneralGradeBook());
+	}
+}

@@ -1,0 +1,6 @@
+package com.gradebook.DO;
+
+public class GeneralGradeBook {
+	private String classNumber = null;
+	private GeneralGradingSchema generalGradingSchema	= null;
+}

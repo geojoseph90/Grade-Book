@@ -1,0 +1,11 @@
+package com.gradebook.factories;
+
+import com.gradebook.DO.GeneralGradeBook;
+
+public class LetterGradeCalculator implements GradeCalculator{
+	public GeneralGradeBook calculateGrade(GeneralGradeBook gradeBook) {
+		
+		return new  GeneralGradeBook();
+	}
+
+}

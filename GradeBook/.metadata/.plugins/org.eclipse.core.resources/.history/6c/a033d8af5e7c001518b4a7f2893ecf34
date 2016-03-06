@@ -1,0 +1,5 @@
+package com.gradebook.DO;
+
+public class GeneralGrades {
+	private List<GeneralStudent> generalStudent = null;
+}

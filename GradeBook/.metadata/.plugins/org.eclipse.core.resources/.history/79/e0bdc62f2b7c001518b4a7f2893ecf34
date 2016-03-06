@@ -1,0 +1,11 @@
+package com.gradebook.factories;
+
+public class GradeCalculatorFactory {
+	public GradeCalculator getGradeCalculator(String gradeType) {
+		if(gradeType == "Letter") {
+			
+		}
+		return new GradeCalculator();
+	}
+	
+}

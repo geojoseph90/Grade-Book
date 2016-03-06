@@ -1,0 +1,10 @@
+package com.gradebook.factories;
+
+public abstract class GradebookFactory {
+	//public GradebookFactory getGradebookFactory();
+	//public boolean generateGradebook();
+	//public abstract String createGradebook();
+	public abstract String readGrades();
+	public abstract String calcuateGrades();
+	public abstract String generateGradebook();
+}

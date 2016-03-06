@@ -1,0 +1,22 @@
+package com.gradebook.DO;
+
+import java.util.List;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAnyElement;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+public class GradingSchemaXML {
+	
+	@XmlElement(name="GradingSchema")
+	private List<GradeItemXML> gradeItemList = null;
+
+	public List<GradeItemXML> getGradeItemList() {
+		return gradeItemList;
+	}
+	
+   
+    public void setGradeItemList(List<GradeItemXML> gradeItemList) {
+		this.gradeItemList = gradeItemList;
+	}
+}

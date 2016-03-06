@@ -1,0 +1,8 @@
+package com.gradebook.factories;
+
+public class NumberGradeCalculator implements GradeCalculator{
+	public boolean calculateGrade() {
+		return true;
+	}
+
+}

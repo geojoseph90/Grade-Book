@@ -1,0 +1,13 @@
+package com.gradebook.factories;
+
+public class GradeGeneratorFactory {
+	public boolean generateGradeGenerator(String outputType) {
+		if(outputType == "HTML") {
+			
+		} else {
+			
+			
+		}
+		
+	}
+}

@@ -1,0 +1,26 @@
+package com.gradebook.DO;
+
+public class GeneralGradeBook {
+	private String classNumber = null;
+	public String getClassNumber() {
+		return classNumber;
+	}
+	public void setClassNumber(String classNumber) {
+		this.classNumber = classNumber;
+	}
+	public GeneralGradingSchema getGeneralGradingSchema() {
+		return generalGradingSchema;
+	}
+	public void setGeneralGradingSchema(GeneralGradingSchema generalGradingSchema) {
+		this.generalGradingSchema = generalGradingSchema;
+	}
+	public GeneralGrades getGeneralGrades() {
+		return generalGrades;
+	}
+	public void setGeneralGrades(GeneralGrades generalGrades) {
+		this.generalGrades = generalGrades;
+	}
+	private GeneralGradingSchema generalGradingSchema	= null;
+	private GeneralGrades generalGrades = null;
+	
+}

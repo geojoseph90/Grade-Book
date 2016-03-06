@@ -1,0 +1,9 @@
+package com.gradebook.factories;
+
+public class MarkComputerFactory {
+	public MarkComputer getMarkComputer(String workCategory) {
+		if(workCategory == "Assignment") {
+			return new 
+		}
+	}
+}

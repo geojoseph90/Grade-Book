@@ -1,0 +1,22 @@
+package com.gradebook.DO;
+
+import javax.xml.bind.annotation.XmlAttribute;
+
+public class GradedWorkXML {
+	@XmlAttribute(name = "Name", required = true)
+	private String name = null;
+	@XmlAttribute(name = "Grade", required = true)
+	private String grade = null;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getGrade() {
+		return grade;
+	}
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+}

@@ -1,0 +1,35 @@
+package com.gradebook.client;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import com.gradebook.factories.FactoryProducer;
+import com.gradebook.factories.GradebookFactory;
+import com.gradebook.factories.GraduateGradebookFactory;
+
+public class MainClass {
+	public static void main(String argsp[]) {
+		System.out.println("Enter the student type");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String studentType = null;
+		try {
+			studentType = br.readLine();
+		} catch (IOException e) {
+			System.out.println("User input reading operation failed");
+			e.printStackTrace();
+		}
+		FactoryProducer producer = new FactoryProducer();
+		GradebookFactory gradebookFactory = producer.getFactory(studentType);
+		if(studentType == "Graduate") {
+			gradebookFactory.readGrades("JSON");
+		}
+		else {
+			gradebookFactory.readGrades("XML");
+		}
+			
+		
+		
+	}
+
+}

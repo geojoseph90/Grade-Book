@@ -1,0 +1,28 @@
+package com.gradebook.factories;
+
+import java.beans.XMLEncoder;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
+import com.gradebook.DO.GeneralGradeBook;
+
+public class XMLGradebookGenerator implements GradebookGenerator{
+	@Override
+	public boolean generateGradebook(GeneralGradeBook generalGradeBook) {
+		 String fileName = "/Users/geo/Desktop/TestFiles/XMLFile.xml";
+		 
+		 XMLEncoder encoder;
+		try {
+			encoder = new XMLEncoder(new BufferedOutputStream(
+			          new FileOutputStream(fileName)));
+			 encoder.writeObject(generalGradeBook);
+		     encoder.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		     
+		return true;
+	}
+}

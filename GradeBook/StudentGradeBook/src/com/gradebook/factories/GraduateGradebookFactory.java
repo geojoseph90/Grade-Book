@@ -1,0 +1,60 @@
+package com.gradebook.factories;
+
+import java.io.File;
+
+import com.gradebook.DO.GradeBook;
+import com.gradebook.DO.GeneralGrades;
+import com.gradebook.DO.Student;
+
+
+public class GraduateGradebookFactory extends  GradebookFactory {
+	
+	private static String defaultFileLocation = new File("").getAbsolutePath();
+
+	@Override
+	public GradeBook readGrades(String fileType) {
+		
+		
+		FileParserFactory fileParserFactory = new FileParserFactory();
+		FileParser fileParser = fileParserFactory.getParser(fileType);
+		GradeBook gradeBook = fileParser.parseFile(defaultFileLocation);
+		if(gradeBook != null) {
+			gradeBook = calcuateGrades(gradeBook);
+			return gradeBook;
+		}
+		else {
+			return null;
+		}
+		
+	}
+
+	@Override
+	public GradeBook calcuateGrades(GradeBook gradeBook) {
+		
+		GradeCalculatorFactory gradeCalculatorFactory = new GradeCalculatorFactory();
+		GradeCalculator gradeCalculator = gradeCalculatorFactory.getGradeCalculator(gradeBook.getGeneralGradeType());
+		if(gradeCalculator != null) {
+			gradeBook = gradeCalculator.calculateGrade(gradeBook);
+			return gradeBook;
+		}
+		else {
+			return null;
+		}
+		
+	}
+
+	@Override
+	public String generateGradebook(GradeBook gradeBook) {
+		GradebookGeneratorFactory gradeGeneratorFactory = new GradebookGeneratorFactory();
+		GradebookGenerator gradebookGenerator = gradeGeneratorFactory.generateGradeGenerator(gradeBook.getGeneralOutputType());
+		if(gradebookGenerator != null) {
+			gradebookGenerator.generateGradebook(gradeBook);
+		}
+		else {
+			System.out.println("Unknown output type");
+		}
+		return null;
+	}
+
+
+}

@@ -1,0 +1,102 @@
+
+package com.gradebook.DO;
+
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Generated;
+import org.codehaus.jackson.annotate.JsonAnyGetter;
+import org.codehaus.jackson.annotate.JsonAnySetter;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+    "-class",
+    "GradingSchema",
+    "Grades"
+})
+public class GradeBook {
+
+    @JsonProperty("-class")
+    private String classNumber;
+    @JsonProperty("GradingSchema")
+    private com.gradebook.DO.GradingSchema gradingSchema;
+    @JsonProperty("Grades")
+    private com.gradebook.DO.Grades Grades;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    /**
+     * 
+     * @return
+     *     The Class
+     */
+    @JsonProperty("-class")
+    public String getClass_() {
+        return classNumber;
+    }
+
+    /**
+     * 
+     * @param Class
+     *     The -class
+     */
+    @JsonProperty("-class")
+    public void setClass_(String Class) {
+        this.classNumber = Class;
+    }
+
+    /**
+     * 
+     * @return
+     *     The GradingSchema
+     */
+    @JsonProperty("GradingSchema")
+    public com.gradebook.DO.GradingSchema getGradingSchema() {
+        return gradingSchema;
+    }
+
+    /**
+     * 
+     * @param GradingSchema
+     *     The GradingSchema
+     */
+    @JsonProperty("GradingSchema")
+    public void setGradingSchema(com.gradebook.DO.GradingSchema GradingSchema) {
+        this.gradingSchema = GradingSchema;
+    }
+
+    /**
+     * 
+     * @return
+     *     The Grades
+     */
+    @JsonProperty("Grades")
+    public com.gradebook.DO.Grades getGrades() {
+        return Grades;
+    }
+
+    /**
+     * 
+     * @param Grades
+     *     The Grades
+     */
+    @JsonProperty("Grades")
+    public void setGrades(com.gradebook.DO.Grades Grades) {
+        this.Grades = Grades;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
+}

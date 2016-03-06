@@ -1,0 +1,5 @@
+package com.gradebook.factories;
+
+public interface GradeGeneratorFactory {
+	public boolean generateGradeGenerator();
+}

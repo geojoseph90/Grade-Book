@@ -1,0 +1,27 @@
+package com.gradebook.DO;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlValue;
+
+public class GradeItemXML {
+	
+	private String 	Category 		= null;
+	
+	private int		Percentage		= 0;
+	
+	public String getCategory() {
+		return Category;
+	}
+	
+	@XmlValue
+	public void setCategory(String category) {
+		this.Category = category;
+	}
+	public int getPrecentage() {
+		return Percentage;
+	}
+	@XmlValue
+	public void setPrecentage(int percentage) {
+		this.Percentage = percentage;
+	}
+}

@@ -1,0 +1,15 @@
+package com.gradebook.DO;
+
+import java.util.List;
+
+public class GeneralGrades {
+	private List<GeneralStudent> generalStudent = null;
+
+	public List<GeneralStudent> getGeneralStudent() {
+		return generalStudent;
+	}
+
+	public void setGeneralStudent(List<GeneralStudent> generalStudent) {
+		this.generalStudent = generalStudent;
+	}
+}

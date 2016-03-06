@@ -1,0 +1,82 @@
+package com.gradebook.factories;
+
+import java.io.File;
+
+import com.gradebook.DO.GeneralGradeBook;
+import com.gradebook.DO.GeneralGrades;
+import com.gradebook.DO.GeneralStudent;
+import com.gradebook.DO.GradeBook;
+
+public class GraduateGradebookFactory extends  GradebookFactory {
+	
+	private static String defaultFileLocation = new File("").getAbsolutePath();
+
+	@Override
+	public GeneralGradeBook readGrades(String fileType) {
+		
+		
+		FileParserFactory fileParserFactory = new FileParserFactory();
+		FileParser fileParser = fileParserFactory.getParser(fileType);
+		GeneralGradeBook gradeBook = fileParser.parseFile(defaultFileLocation);
+		if(gradeBook != null) {
+			GeneralGradeBook generalGradeBook = calcuateGrades(gradeBook);
+			return generalGradeBook;
+		}
+		else {
+			return null;
+		}
+		
+	}
+
+	@Override
+	public GeneralGradeBook calcuateGrades(GeneralGradeBook gradeBook) {
+		
+		
+		/*GradeCalculatorFactory gradeCalculatorFactory = new GradeCalculatorFactory();
+		if(sampleStudent != null) {
+			List<AssignedWork> assignedWorkList = sampleStudent.getAssignedWork();
+			if(assignedWorkList != null) {
+				GradedWork[] gradedWork = assignedWorkList.get(0).getGradedWork();
+				if(gradedWork != null) {
+					sampleGrade = gradedWork[0].getGrade();
+				}
+				
+			}
+		}
+		if(sampleGrade.matches("[0-9]+")) {
+			GradeCalculator gradeCalculator = gradeCalculatorFactory.getGradeCalculator("Number");
+			result = gradeCalculator.calculateGrade(gradeBook);
+		}
+		else {
+			GradeCalculator gradeCalculator = gradeCalculatorFactory.getGradeCalculator("Letter");
+			result = gradeCalculator.calculateGrade(gradeBook);
+		}
+		*/
+		GradeCalculatorFactory gradeCalculatorFactory = new GradeCalculatorFactory();
+		GradeCalculator gradeCalculator = gradeCalculatorFactory.getGradeCalculator(gradeBook.getGeneralGradeType());
+		if(gradeCalculator != null) {
+			gradeCalculator.calculateGrade(gradeBook);
+		}
+		else {
+			return null;
+		}
+		return new GeneralGradeBook();
+	}
+
+	@Override
+	public String generateGradebook(GeneralGradeBook gradeBook) {
+		
+		return null;
+	}
+
+	public boolean validateDO(GeneralGradeBook gradeBook) {
+		// the method checks whether proper values are present in the database
+		return true;
+	}
+	public static void main(String args[]) {
+		GraduateGradebookFactory gradebook = new GraduateGradebookFactory();
+		gradebook.readGrades("XML");
+	}
+
+
+}

@@ -1,0 +1,168 @@
+package com.gradebook.factories;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
+import com.gradebook.DO.AssignedWorkXML;
+import com.gradebook.DO.AssignedWork;
+import com.gradebook.DO.GradeBook;
+import com.gradebook.DO.GeneralGradeItem;
+import com.gradebook.DO.GradedWork;
+import com.gradebook.DO.GeneralGrades;
+import com.gradebook.DO.GeneralGradingSchema;
+import com.gradebook.DO.Student;
+import com.gradebook.DO.GradeBookXML;
+import com.gradebook.DO.GradeItemXML;
+import com.gradebook.DO.GradedWorkXML;
+import com.gradebook.DO.StudentXML;
+
+public class XMLFileParser implements FileParser {
+	private String finalfileLocation = "/src/Files/StudentGrades.xml";
+	private int totalAssingedWorks = 0;
+	private String grades[] = {"A+","A","A-","B+","B","B-","C+","C","C-","D","E"};
+	private boolean letterGrade = false;
+	private boolean numberGrade = false;
+	
+	@Override
+	public GradeBook parseFile(String fileLocation) {
+		
+		GradeBook generalGradeBook = new GradeBook();
+		 try {
+			 	finalfileLocation = fileLocation.concat(finalfileLocation);
+				File file = new File(finalfileLocation);
+				JAXBContext jaxbContext = JAXBContext.newInstance(GradeBookXML.class);
+
+				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+				GradeBookXML gradeBook = (GradeBookXML) jaxbUnmarshaller.unmarshal(file);
+				generalGradeBook =  mapToGeneral(gradeBook);
+				if(generalGradeBook == null) {
+					return null;
+				}
+
+			  } catch (JAXBException e) {
+				e.printStackTrace();
+			  }
+		return generalGradeBook;
+	}
+	
+	public GradeBook mapToGeneral(GradeBookXML gradeBookXML) {
+		int i = 0;
+		GradeBook gradeBook = new GradeBook();
+		GeneralGradingSchema generalGradingSchema = new GeneralGradingSchema();
+		
+		GeneralGrades generalGrades = new GeneralGrades();
+		if(gradeBookXML == null) {
+			return null;
+		}
+		String classNumber = gradeBookXML.getClassNumber();
+		if(classNumber == null) {
+			return null;
+		}
+		ArrayList<GeneralGradeItem> generalGradeItem = new ArrayList<GeneralGradeItem>();
+		for(GradeItemXML gradeItem : gradeBookXML.getGradeItemList()) {
+			GeneralGradeItem genGradeItem = new GeneralGradeItem();
+			if(gradeItem.getCategory() != null || gradeItem.getCategory() != "") {
+				genGradeItem.setCategory(gradeItem.getCategory());
+			}
+			else {
+				return null;
+			}
+			if(gradeItem.getPrecentage() != 0) {
+				genGradeItem.setPrecentage(gradeItem.getPrecentage());
+			}
+			else {
+				return null;
+			}
+			generalGradeItem.add(genGradeItem);
+		}
+		
+		generalGradingSchema.setGradeItemList(generalGradeItem);
+		ArrayList<Student> generalStudent = new ArrayList<Student>();
+		for(StudentXML student : gradeBookXML.getGeneralStudent()) {
+			
+			Student genStudent = new Student();
+			if(student.getStudentId() != null) {
+				genStudent.setStudentId(student.getStudentId());
+			}
+			else {
+				return null;
+			}
+			if(student.getStudentName() != null) {
+				genStudent.setStudentName(student.getStudentName());	
+			}
+			ArrayList<AssignedWork> generalAssignedWork = new ArrayList<AssignedWork>();		
+			for(AssignedWorkXML assingedWorkXML: student.getGeneralAssignedWork()) {
+				AssignedWork genAssignedWork = new AssignedWork();
+				if(assingedWorkXML.getCategory() != null) {
+					genAssignedWork.setCategory(assingedWorkXML.getCategory());
+				}
+				else {
+					return null;
+				}
+				ArrayList<GradedWork> generalGradedWork = new ArrayList<GradedWork>();
+				for(GradedWorkXML gradedWork : assingedWorkXML.getGeneralGradedWork()) {
+					GradedWork genGradedWork = new GradedWork();
+					if(Arrays.asList(grades).contains(gradedWork.getGrade())){
+        				letterGrade = true;
+        			}
+        			else if(gradedWork.getGrade().matches("[1-9]?\\d")) {
+        			    numberGrade = true;
+        			}
+        			else {
+        				System.out.println("Invalid grade entry");
+        				return null;
+        			}
+					if(letterGrade == numberGrade && (letterGrade == true || numberGrade == true)) {
+						System.out.println("Invalid grades");
+						return null;
+					}
+					if(gradedWork.getGrade() != null) {
+						genGradedWork.setGrade(gradedWork.getGrade());
+					}
+					else {
+						return null;
+					}
+					if(gradedWork.getName() != null) {
+						genGradedWork.setName(gradedWork.getName());
+					}
+					else {
+						return null;
+					}
+					if(i==0) {
+						totalAssingedWorks++;
+					}
+					
+					generalGradedWork.add(genGradedWork);
+					
+				}
+				genAssignedWork.setGradedWork(generalGradedWork);
+				generalAssignedWork.add(genAssignedWork);
+			}
+			genStudent.setAssignedWork(generalAssignedWork);
+			generalStudent.add(genStudent);
+			i++;
+		}
+		generalGrades.setStudent(generalStudent);
+		gradeBook.setClassNumber(classNumber);
+		gradeBook.setGeneralGrades(generalGrades);
+		gradeBook.setGeneralGradingSchema(generalGradingSchema);
+		gradeBook.setTotalAssignedWorks(totalAssingedWorks);
+		if(numberGrade) {
+			gradeBook.setGeneralGradeType("Number");
+		}
+		else if(letterGrade) {
+			gradeBook.setGeneralGradeType("Letter");
+		}
+		else {
+			gradeBook.setGeneralGradeType("NA");
+		}
+			
+		return gradeBook;
+	}
+
+}

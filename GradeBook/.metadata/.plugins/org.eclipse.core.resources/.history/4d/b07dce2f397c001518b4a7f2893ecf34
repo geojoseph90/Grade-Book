@@ -1,0 +1,15 @@
+package com.gradebook.core;
+
+import java.util.List;
+
+import com.gradebook.factories.MarkComputer;
+
+public class ProgrammingAssignmentMarkComputer implements MarkComputer {
+
+	@Override
+	public int computeFinalGrade(List<Integer> markList) {
+		
+		return 0;
+	}
+
+}

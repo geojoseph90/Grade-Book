@@ -1,0 +1,47 @@
+package com.gradebook.DO;
+
+public class PrintableDO {
+	String Name;
+	String ID;
+	String Category;
+	String Work;
+	String grade;
+	String classNumber;
+	public String getStudentName() {
+		return Name;
+	}
+	public void setStudentName(String studentName) {
+		this.Name = studentName;
+	}
+	public String getStudentId() {
+		return ID;
+	}
+	public void setStudentId(String studentId) {
+		this.ID = studentId;
+	}
+	public String getCategory() {
+		return Category;
+	}
+	public void setCategory(String category) {
+		this.Category = category;
+	}
+	public String getGradedWork() {
+		return Work;
+	}
+	public void setGradedWork(String gradedWork) {
+		this.Work = gradedWork;
+	}
+	public String getGrade() {
+		return grade;
+	}
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+	public String getClassNumber() {
+		return classNumber;
+	}
+	public void setClassNumber(String classNumber) {
+		this.classNumber = classNumber;
+	}
+	
+}

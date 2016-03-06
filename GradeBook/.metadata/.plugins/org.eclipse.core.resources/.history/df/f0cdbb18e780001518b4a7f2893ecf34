@@ -1,0 +1,17 @@
+package com.gradebook.factories;
+
+public class GradebookGeneratorFactory {
+	public GradebookGenerator generateGradeGenerator(String outputType) {
+		
+		if(outputType == "html") {
+			return new HTMLGradebookGenerator();
+		} else if (outputType == "csv"){
+			
+			return new CSVGradebookGenerator();
+		}
+		else if(outputType == "xml"){
+			return new XMLGradebookGenerator();
+		}
+	
+	}
+}

@@ -1,0 +1,10 @@
+package com.gradebook.factories;
+
+import com.gradebook.DO.GradeBook;
+
+public class NumberGradeCalculator implements GradeCalculator{
+	public boolean calculateGrade(GradeBook gradeBook) {
+		return true;
+	}
+
+}

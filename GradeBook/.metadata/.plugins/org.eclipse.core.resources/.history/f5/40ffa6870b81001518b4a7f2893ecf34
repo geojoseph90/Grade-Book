@@ -1,0 +1,103 @@
+package com.gradebook.factories;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import com.gradebook.DO.GeneralAssignedWork;
+import com.gradebook.DO.GeneralGradeBook;
+import com.gradebook.DO.GeneralGradeItem;
+import com.gradebook.DO.GeneralGradedWork;
+import com.gradebook.DO.GeneralGradingSchema;
+import com.gradebook.DO.GeneralStudent;
+
+
+public class HTMLGradebookGenerator implements GradebookGenerator {
+
+	@Override
+	public boolean generateGradebook(GeneralGradeBook generalGradeBook) {
+		String userHomeFolder = System.getProperty("user.home");	
+		String fileName = "/Desktop/GradeBook.html";
+		StringBuilder outputString = new StringBuilder();
+		outputString.append("<html>");
+		outputString.append("<head>");
+		outputString.append("</head>");
+		outputString.append("<table>");
+		outputString.append("<tr style=\"font-weight: bold;height=\"20\";\">");
+		outputString.append(appendHeader(generalGradeBook.getGeneralGradingSchema()));
+		outputString.append("</tr>");
+		outputString.append("</br>");
+		for(GeneralStudent generalStudent : generalGradeBook.getGeneralGrades().getGeneralStudent()) {
+			outputString.append("<tr height=\"20\">");
+			outputString.append("<td width=\"100\">");
+			outputString.append(generalStudent.getStudentName());
+			outputString.append("</td>");
+			outputString.append("<td width=\"100\">");
+			outputString.append(generalStudent.getStudentId());
+			outputString.append("</td>");
+			outputString.append(appendColumn(generalStudent));
+			outputString.append("</tr>");
+			outputString.append("</br>");
+		}
+		outputString.append("</table>");
+		
+		
+	    try {
+	    	FileWriter fstream = new FileWriter(userHomeFolder.concat(fileName),false);
+		    BufferedWriter out = new BufferedWriter(fstream);
+			out.write(outputString.toString());
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+		return true;
+	}
+	
+	public StringBuilder appendColumn(GeneralStudent generalStudent) {
+		StringBuilder contentRow = new StringBuilder();
+		
+		for(GeneralAssignedWork assignedWork : generalStudent.getGeneralAssignedWork()) {
+			for(GeneralGradedWork gradedWork : assignedWork.getGeneralGradedWork()) {
+				contentRow.append("<td width=\"100\">");
+				contentRow.append(gradedWork.getGrade());
+				contentRow.append("</td>");
+			}
+			contentRow.append("<td width=\"100\">");
+			// get the grades from assignedwork
+			contentRow.append("</td>");
+		}
+		return contentRow;
+	}
+	
+	public StringBuilder appendHeader(GeneralGradingSchema generalGradingSchema) {
+		StringBuilder headerRow = new StringBuilder();
+		headerRow.append("<td width=\"1\200\">");
+		headerRow.append("Name");
+		headerRow.append("</td>");
+		headerRow.append("<td width=\"150\">");
+		headerRow.append("ID");
+		headerRow.append("</td>");
+		
+		for(GeneralGradeItem item : generalGradingSchema.getGradeItemList()) {
+			headerRow.append("<td width=\"200\">");
+			headerRow.append(item.getCategory());
+			headerRow.append("</td>");
+		}
+		
+		headerRow.append("<td width=\"100\">");
+		headerRow.append("Grade");
+		headerRow.append("</td>");
+		
+		return headerRow;
+		
+	}
+	
+	/*public static void main(String args[]) {
+		
+		HTMLGradebookGenerator htmlGen = new HTMLGradebookGenerator();
+		htmlGen.generateGradebook(new GeneralGradeBook());
+	}*/
+	
+}

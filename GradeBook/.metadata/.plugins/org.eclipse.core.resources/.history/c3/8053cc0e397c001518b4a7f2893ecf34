@@ -1,0 +1,7 @@
+package com.gradebook.factories;
+
+import java.util.List;
+
+public interface MarkComputer {
+	public int computeFinalGrade(List<Integer> markList);
+}

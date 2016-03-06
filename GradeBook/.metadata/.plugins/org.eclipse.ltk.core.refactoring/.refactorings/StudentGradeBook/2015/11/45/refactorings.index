@@ -1,0 +1,34 @@
+1446430810522	Rename local variable 'generalAssignedWork'
+1446431728618	Rename local variable 'generalStudent'
+1446432159030	Rename local variable 'generalGradingSchema'
+1446432535755	Rename field 'grades'
+1446432591892	Delete element
+1446432597871	Delete element
+1446432614707	Rename type 'GeneralStudent'
+1446432646577	Delete element
+1446432665869	Rename type 'GeneralAssignedWork'
+1446432686284	Delete element
+1446432700754	Rename type 'GeneralGradedWork'
+1446432787694	Delete element
+1446432845861	Delete element
+1446432851863	Delete element
+1446432865669	Rename type 'GeneralGradeBook'
+1446433023393	Rename local variable 'generalStudent'
+1446433074733	Rename method 'getGeneralStudent'
+1446433086334	Rename method 'setGeneralStudent'
+1446433119301	Rename field 'generalAssignedWork'
+1446433150424	Rename field 'AssignedWork'
+1446433166579	Rename method 'getGeneralAssignedWork'
+1446433178663	Rename method 'setGeneralAssignedWork'
+1446433207301	Rename method 'getFinalGrade'
+1446433226509	Rename method 'setFinalGrade'
+1446433315842	Rename method 'getGeneralGradedWork'
+1446433324734	Rename method 'setGeneralGradedWork'
+1446440535601	Copy file
+1446445879316	Delete elements
+1446445906076	Delete element
+1446446027168	Delete element
+1446446030885	Delete element
+1446446035707	Delete element
+1446446047415	Delete element
+1446446059669	Delete element

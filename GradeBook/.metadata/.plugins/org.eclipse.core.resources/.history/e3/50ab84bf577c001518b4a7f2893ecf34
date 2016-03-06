@@ -1,0 +1,21 @@
+package com.gradebook.DO;
+
+public class GradesXML {
+	 private Student[] Student;
+
+	    public Student[] getStudent ()
+	    {
+	        return Student;
+	    }
+
+	    public void setStudent (Student[] Student)
+	    {
+	        this.Student = Student;
+	    }
+
+	    @Override
+	    public String toString()
+	    {
+	        return "ClassPojo [Student = "+Student+"]";
+	    }
+}

@@ -1,0 +1,28 @@
+package com.gradebook.DO;
+
+import java.util.List;
+
+public class GeneralStudent {
+	private String name = null;
+	private String studentId = null;
+	private List<GeneralAssignedWork> generalAssignedWork = null;
+	public String getStudentName() {
+		return name;
+	}
+	public void setStudentName(String studentName) {
+		this.name = studentName;
+	}
+	public String getStudentId() {
+		return studentId;
+	}
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
+	}
+	public List<GeneralAssignedWork> getGeneralAssignedWork() {
+		return generalAssignedWork;
+	}
+	public void setGeneralAssignedWork(List<GeneralAssignedWork> generalAssignedWork) {
+		this.generalAssignedWork = generalAssignedWork;
+	}
+	
+}

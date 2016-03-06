@@ -1,0 +1,20 @@
+package com.gradebook.core;
+
+import java.util.List;
+
+import com.gradebook.factories.MarkComputer;
+
+public class AssignmentMarkComputer implements MarkComputer {
+	private final double weightage = 0.20;
+	@Override
+	public double computeFinalGrade(List<Integer> markList) {
+		double totalMarks = 0;
+		int count = markList.size();
+		double weightedMarks = 0;
+		for(int mark : markList) {
+			totalMarks += mark;
+		}
+		weightedMarks = (totalMarks/count)*weightage;
+		return weightedMarks;
+		}
+}

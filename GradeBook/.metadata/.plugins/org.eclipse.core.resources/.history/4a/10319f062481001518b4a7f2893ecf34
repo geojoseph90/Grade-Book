@@ -1,0 +1,98 @@
+package com.gradebook.factories;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gradebook.DO.AssignedWork;
+import com.gradebook.DO.GradeBook;
+import com.gradebook.DO.GeneralGradeItem;
+import com.gradebook.DO.GradedWork;
+import com.gradebook.DO.GeneralGrades;
+import com.gradebook.DO.GeneralGradingSchema;
+import com.gradebook.DO.Student;
+import com.gradebook.DO.PrintableDO;
+import com.opencsv.CSVWriter;
+
+public class CSVGradebookGenerator implements GradebookGenerator{
+
+	@Override
+	public boolean generateGradebook(GradeBook generalGradeBook) {
+	 String userHomeFolder = System.getProperty("user.home");	
+	 String fileName = "/Desktop/GradeBook.csv";
+	 
+	 
+	 List<String[]> studentList = new ArrayList<String[]>();
+	 studentList = generateAsList(generalGradeBook);
+	 try {
+		CSVWriter writer = new CSVWriter(new FileWriter(userHomeFolder+fileName));
+		writer.writeAll(studentList);
+		writer.close();
+		System.out.println("The grade book has been generated in the location "+userHomeFolder+fileName);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		System.out.println("Error generating the report. Please verify the input file. Please try again. ");
+	}
+	    
+		return true;
+	}
+	
+	public List<String[]> generateAsList(GradeBook generalGradeBook) {
+		List<PrintableDO> studentList = new ArrayList<PrintableDO>();
+		List<String[]> printableList = new ArrayList<String[]>();
+		PrintableDO studentToBePrinted = new PrintableDO();
+		studentToBePrinted.setClassNumber(generalGradeBook.getClassNumber());
+		GeneralGradingSchema generalGradingSchema = generalGradeBook.getGeneralGradingSchema();
+		GeneralGrades grades = new GeneralGrades();
+		grades = generalGradeBook.getGeneralGrades();
+		
+		String[] headerString = new String[generalGradeBook.getTotalAssignedWorks()+3];
+		headerString[0] = "Name";
+		headerString[1] = "ID";
+		int i = 2;
+		
+		
+		
+			Student genStudent = grades.getStudent().get(0);
+			for(AssignedWork generalAssignedWork : genStudent.getAssignedWork()) {
+				
+				for(GradedWork gradedWork : generalAssignedWork.getGradedWork()) {
+					headerString[i] = gradedWork.getName();
+					i++;
+					
+				}
+			}
+			
+		
+		
+		
+		
+		
+		headerString[i] = "Grade";
+		printableList.add(headerString);
+	
+		for(Student generalStudent : grades.getStudent()) {
+			int j = 0;
+			String[] marksArray = new String[generalGradeBook.getTotalAssignedWorks()];
+			marksArray[j] = generalStudent.getStudentName();
+			j++;
+			marksArray[j] = generalStudent.getStudentId();
+			j++;
+			for(AssignedWork generalAssignedWorkForStudent : generalStudent.getAssignedWork()) {
+				
+				for(GradedWork generalGradeWork : generalAssignedWorkForStudent.getGradedWork()) {
+					marksArray[j] = generalGradeWork.getGrade();
+					j++;
+					
+				}
+				marksArray[j] = generalStudent.getLetterGrade();
+			}
+			printableList.add(marksArray);
+		}
+		return printableList;
+	}
+	
+
+}

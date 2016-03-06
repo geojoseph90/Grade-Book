@@ -1,0 +1,34 @@
+package com.gradebook.factories;
+
+import com.gradebook.DO.GradeBook;
+
+public class GraduateGradebookFactory extends  GradebookFactory {
+	
+	private static String defaultFileLocation = "";
+
+	@Override
+	public void readGrades(String fileType) {
+		FileParserFactory fileParserFactory = new FileParserFactory();
+		FileParser fileParser = fileParserFactory.getParser(fileType);
+		GradeBook gradeBook = fileParser.parseFile(defaultFileLocation);
+		
+		if(gradeBook != null) {
+			calcuateGrades();
+		}
+	}
+
+	@Override
+	public String calcuateGrades() {
+		
+		return null;
+	}
+
+	@Override
+	public String generateGradebook() {
+		
+		return null;
+	}
+
+	
+
+}

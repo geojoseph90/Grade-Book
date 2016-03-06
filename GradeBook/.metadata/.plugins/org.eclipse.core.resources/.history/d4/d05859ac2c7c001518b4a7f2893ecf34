@@ -1,0 +1,26 @@
+package com.gradebook.factories;
+
+import com.gradebook.DO.GradeBook;
+
+public class UndergraduateGradebookFactory extends GradebookFactory {
+	private static String defaultFileLocation = "";
+	@Override
+	public void readGrades(String fileType) {
+		String location=null;
+		FileParser parser = new JSONFileParser();
+		parser.parseFile(defaultFileLocation);
+	
+	}
+	@Override
+	public boolean calcuateGrades(GradeBook gradeBook) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public String generateGradebook() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
+}

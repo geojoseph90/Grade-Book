@@ -1,0 +1,22 @@
+package com.gradebook.DO;
+
+public class GradeBookXML
+{
+    private GradeBook GradeBook;
+
+    public GradeBook getGradeBook ()
+    {
+        return GradeBook;
+    }
+
+    public void setGradeBook (GradeBook GradeBook)
+    {
+        this.GradeBook = GradeBook;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ClassPojo [GradeBook = "+GradeBook+"]";
+    }
+}

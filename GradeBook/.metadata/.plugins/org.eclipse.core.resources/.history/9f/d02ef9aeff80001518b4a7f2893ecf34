@@ -1,0 +1,133 @@
+package com.gradebook.factories;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.gradebook.DO.GeneralAssignedWork;
+import com.gradebook.DO.GeneralGradeBook;
+import com.gradebook.DO.GeneralGradeItem;
+import com.gradebook.DO.GeneralGradedWork;
+import com.gradebook.DO.GeneralGrades;
+import com.gradebook.DO.GeneralGradingSchema;
+import com.gradebook.DO.GeneralStudent;
+
+public class NumberGradeCalculator implements GradeCalculator{
+	
+	public static final Map<Integer,String> syllabus;
+	static {
+		syllabus = new HashMap<Integer,String>();
+		syllabus.put(99,"A+");
+		syllabus.put(95,"A");
+		syllabus.put(90,"A-");
+		syllabus.put(87,"B+");
+		syllabus.put(84,"B");
+		syllabus.put(80,"B-");
+		syllabus.put(75,"C+");
+		syllabus.put(70,"C");
+		syllabus.put(60,"D");
+	}
+	
+	private Map<String,List<Integer>> gradedWorkMap = new HashMap<String,List<Integer>>();
+	private MarkComputerFactory markComputerFactory = new MarkComputerFactory();
+	private MarkComputer markComputer = null;
+	private String category = null;
+	private double marks = 0;
+	public GeneralGradeBook calculateGrade(GeneralGradeBook gradeBook) {
+		
+	 /*List<Student> studentList = gradeBook.getGeneralGradingSchema().ge
+		for(Student student : studentList) {
+			
+			List<AssignedWork> assignedWorkList = student.getAssignedWork();
+			for(AssignedWork assignedWork : assignedWorkList) {
+				//category = assignedWork.getCategory();
+				List<Integer> markList = null;
+				/*for(GradedWork gradedWork : assignedWork.getGradedWork()) {
+					markList.add(Integer.valueOf(gradedWork.getGrade()));
+				}*/
+				/*gradedWorkMap.put(category,markList);
+				markComputer = markComputerFactory.getMarkComputer(category);
+				marks =  markComputer.computeFinalGrade(markList);
+			
+			}
+			
+		}*/
+		//student.setFinalGrade(String.valueOf(marks));
+		
+		GeneralGradingSchema generalGradingSchema = gradeBook.getGeneralGradingSchema();
+		Map<String,Integer> gradingMap = new HashMap<String,Integer>();
+		for(GeneralGradeItem gradeItem : generalGradingSchema.getGradeItemList()) {
+			gradingMap.put(gradeItem.getCategory(), gradeItem.getPrecentage());
+			
+		}
+		
+		List<GeneralGradeItem> generalGradingItem = generalGradingSchema.getGradeItemList();
+		GeneralGrades generalGrades = gradeBook.getGeneralGrades();
+		List<GeneralStudent> generalStudentList = generalGrades.getGeneralStudent();
+		for(GeneralStudent generalStudent : generalStudentList) {
+			String finalGrade = null;
+			float totalMarks = 0;
+			
+			
+			List<GeneralAssignedWork> generalAssignedWorkList = generalStudent.getGeneralAssignedWork();
+			for(GeneralAssignedWork generalAssignedWork : generalAssignedWorkList) {
+				for(GeneralGradedWork generalGradedWork : generalAssignedWork.getGeneralGradedWork()) {
+					if(gradingMap.containsKey(generalAssignedWork.getCategory())) {
+						float percentage = gradingMap.get(generalAssignedWork.getCategory());
+						float grade = Float.valueOf(generalGradedWork.getGrade());
+						float weight = (percentage/100);
+						float weightedGrade = grade*weight;
+						System.out.println(weightedGrade);
+						totalMarks += weightedGrade;
+					}
+					else {
+						System.out.println("Please check the data file");
+						return null;
+					}
+				}
+				
+			}
+			
+			finalGrade =calculateFinalGrade(totalMarks);
+			generalStudent.setFinalGrade(String.valueOf(finalGrade));
+		}
+		
+		return new GeneralGradeBook();
+	
+	}
+	
+	public String calculateFinalGrade(float totalMarks) {
+		if(totalMarks >= 99) {
+			return syllabus.get(99);
+		}
+		else if(totalMarks >= 95) {
+			return syllabus.get(95);
+		}
+		else if(totalMarks >= 90) {
+			return syllabus.get(90);
+		}
+		else if(totalMarks >= 87) {
+			return syllabus.get(87);
+		}
+		else if(totalMarks >= 84) {
+			return syllabus.get(84);
+		}
+		else if(totalMarks >= 80) {
+			return syllabus.get(80);
+		}
+		else if(totalMarks >= 75) {
+			return syllabus.get(75);
+		}
+		else if(totalMarks >= 70) {
+			return syllabus.get(70);
+		}
+		else if(totalMarks >= 60) {
+			return syllabus.get(60);
+		}
+		else {
+			return "E";
+		}
+		
+	}
+	
+}

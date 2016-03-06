@@ -1,0 +1,52 @@
+package com.gradebook.factories;
+
+import com.gradebook.DO.GeneralGradeBook;
+import com.gradebook.DO.GeneralGradeItem;
+import com.gradebook.DO.GeneralGradingSchema;
+import com.gradebook.DO.GeneralStudent;
+import com.gradebook.DO.GradeItem;
+
+public class HTMLGradebookGenerator implements GradebookGenerator {
+
+	@Override
+	public boolean generateGradebook(GeneralGradeBook generalGradeBook) {
+		StringBuilder outputString = new StringBuilder();
+		outputString.append("<html>");
+		outputString.append("<head>");
+		outputString.append("</head>");
+		outputString.append("<table>");
+		outputString.append("<tr style=\"font-weight: bold;\">");
+		outputString.append(appendHeader(generalGradeBook.getGeneralGradingSchema()));
+		outputString.append(appendColumn(generalGradeBook));
+		
+		return true;
+	}
+	
+	public StringBuilder appendColumn(GeneralGradeBook generalGradeBook) {
+		StringBuilder contentRow = new StringBuilder();
+		contentRow.append("td");
+		GeneralStudent generalStudent = new GeneralStudent();
+		
+	}
+	
+	public StringBuilder appendHeader(GeneralGradingSchema generalGradingSchema) {
+		StringBuilder headerRow = new StringBuilder();
+		headerRow.append("<td>");
+		headerRow.append("Name");
+		headerRow.append("</td>");
+		headerRow.append("<td>");
+		headerRow.append("ID");
+		headerRow.append("</td>");
+		headerRow.append("<td>");
+		for(GeneralGradeItem item : generalGradingSchema.getGradeItemList()) {
+			headerRow.append(item.getCategory());
+		}
+		headerRow.append("</td>");
+		headerRow.append("<td>");
+		headerRow.append("Grade");
+		headerRow.append("</td>");
+		return headerRow;
+		
+	}
+	
+}

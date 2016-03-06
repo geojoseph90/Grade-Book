@@ -1,0 +1,10 @@
+package com.gradebook.factories;
+
+public class LetterGradeCalculator extends GradeCalculator{
+
+	@Override
+	public void calculateGrade() {
+		
+	}
+
+}

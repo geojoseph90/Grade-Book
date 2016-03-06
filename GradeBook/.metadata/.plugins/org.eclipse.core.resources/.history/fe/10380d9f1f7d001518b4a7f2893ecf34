@@ -1,0 +1,101 @@
+package com.gradebook.factories;
+
+import java.awt.List;
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
+import com.gradebook.DO.AssignedWorkXML;
+import com.gradebook.DO.GeneralAssignedWork;
+import com.gradebook.DO.GeneralGradeBook;
+import com.gradebook.DO.GeneralGradeItem;
+import com.gradebook.DO.GeneralGradedWork;
+import com.gradebook.DO.GeneralGrades;
+import com.gradebook.DO.GeneralGradingSchema;
+import com.gradebook.DO.GeneralStudent;
+import com.gradebook.DO.GradeBook;
+import com.gradebook.DO.GradeBookXML;
+import com.gradebook.DO.GradeItem;
+import com.gradebook.DO.GradeItemXML;
+import com.gradebook.DO.GradedWorkXML;
+import com.gradebook.DO.StudentXML;
+
+public class XMLFileParser implements FileParser {
+
+	@Override
+	public GradeBook parseFile(String fileLocation) {
+		 try {
+
+				File file = new File(fileLocation);
+				JAXBContext jaxbContext = JAXBContext.newInstance(GradeBookXML.class);
+
+				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+				GradeBookXML gradeBook = (GradeBookXML) jaxbUnmarshaller.unmarshal(file);
+				System.out.println(gradeBook);
+				GeneralGradeBook generalGradeBook = new GeneralGradeBook();
+				
+				
+
+			  } catch (JAXBException e) {
+				e.printStackTrace();
+			  }
+		return new GradeBook();
+	}
+	
+	public GeneralGradeBook mapToGeneral(GradeBookXML gradeBookXML) {
+		GeneralGradeBook gradeBook = new GeneralGradeBook();
+		GeneralGradingSchema generalGradingSchema = new GeneralGradingSchema();
+		ArrayList<GeneralGradeItem> generalGradeItem = new ArrayList<GeneralGradeItem>();
+		GeneralGrades generalGrades = new GeneralGrades();
+		ArrayList<GeneralStudent> generalStudent = new ArrayList<GeneralStudent>();
+		ArrayList<GeneralAssignedWork> generalAssignedWork = new ArrayList<GeneralAssignedWork>();
+		ArrayList<GeneralGradedWork> generalGradedWork = new ArrayList<GeneralGradedWork>();
+		if(gradeBookXML == null) {
+			return null;
+		}
+		String classNumber = gradeBookXML.getClassNumber();
+		for(GradeItemXML gradeItem : gradeBookXML.getGradeItemList()) {
+			GeneralGradeItem genGradeItem = new GeneralGradeItem();
+			genGradeItem.setCategory(gradeItem.getCategory());
+			genGradeItem.setPrecentage(gradeItem.getPrecentage());
+			generalGradeItem.add(genGradeItem);
+		}
+		generalGradingSchema.setGradeItemList(generalGradeItem);
+		for(StudentXML student : gradeBookXML.getGeneralStudent()) {
+			GeneralStudent genStudent = new GeneralStudent();
+			genStudent.setStudentId(student.getStudentId());
+			genStudent.setStudentName(student.getStudentName());			
+			for(AssignedWorkXML assingedWorkXML: student.getGeneralAssignedWork()) {
+				GeneralAssignedWork genAssignedWork = new GeneralAssignedWork();
+				genAssignedWork.setCategory(assingedWorkXML.getCategory());
+				for(GradedWorkXML gradedWork : assingedWorkXML.getGeneralGradedWork()) {
+					GeneralGradedWork genGradedWork = new GeneralGradedWork();
+					genGradedWork.setGrade(gradedWork.getGrade());
+					genGradedWork.setName(gradedWork.getName());
+					generalGradedWork.add(genGradedWork);
+				}
+				genAssignedWork.setGeneralGradedWork(generalGradedWork);
+				generalAssignedWork.add(genAssignedWork);
+			}
+			genStudent.setGeneralAssignedWork(generalAssignedWork);
+			generalStudent.add(genStudent);
+		}
+		generalGrades.setGeneralStudent(generalStudent);
+		gradeBook.setClassNumber(classNumber);
+		gradeBook.setGeneralGrades(generalGrades);
+		gradeBook.setGeneralGradingSchema(generalGradingSchema);
+		return gradeBook;
+	}
+	public static void main(String []args) {
+		FileParser fileParser = new XMLFileParser();
+		fileParser.parseFile("/Users/geo/Desktop/TestFiles/StudentGrades.XML");
+		
+	}
+
+}

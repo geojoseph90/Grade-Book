@@ -1,0 +1,17 @@
+package com.gradebook.core;
+
+import java.util.List;
+import java.util.Map;
+
+public class ComputeNumericGrade {
+	private int finalGade = 0;
+	public int calculateFinalGrade(Map<String,List<Integer>> gradedWorkMap) {
+		if(gradedWorkMap == null) {
+			return -1;
+		}
+		else {
+			
+			return finalGade;
+		}
+	}
+}

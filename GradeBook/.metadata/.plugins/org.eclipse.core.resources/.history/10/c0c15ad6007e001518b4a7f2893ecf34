@@ -1,0 +1,153 @@
+package com.gradebook.factories;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.supercsv.cellprocessor.constraint.NotNull;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
+
+import com.gradebook.DO.GeneralAssignedWork;
+import com.gradebook.DO.GeneralGradeBook;
+import com.gradebook.DO.GeneralGradeItem;
+import com.gradebook.DO.GeneralGradedWork;
+import com.gradebook.DO.GeneralGrades;
+import com.gradebook.DO.GeneralGradingSchema;
+import com.gradebook.DO.GeneralStudent;
+import com.gradebook.DO.PrintableDO;
+import com.opencsv.CSVWriter;
+
+public class CSVGradebookGenerator implements GradebookGenerator{
+
+	@Override
+	public boolean generateGradebook(GeneralGradeBook generalGradeBook) {
+		
+	 String fileName = "/Users/geo/Desktop/TestFiles/CSVFile.csv";
+	 generalGradeBook.setClassNumber("CSE 598");
+	 List<GeneralGradeItem> giList = new ArrayList<GeneralGradeItem>();
+	 GeneralGradeItem gi = new GeneralGradeItem();
+	 gi.setCategory("Programming Assignment");
+	 gi.setPrecentage(70);
+	 giList.add(gi);
+	 GeneralGradingSchema gs = new GeneralGradingSchema();
+	 gs.setGradeItemList(giList);
+	 GeneralGrades grade = new GeneralGrades();
+	 generalGradeBook.setGeneralGradingSchema(gs);
+	 List<GeneralStudent> st = new ArrayList<GeneralStudent>();
+	 GeneralStudent stud = new GeneralStudent();
+	 List<GeneralAssignedWork> assignedWork = new  ArrayList<GeneralAssignedWork>();
+	 List<GeneralGradedWork> genGradWork = new  ArrayList<GeneralGradedWork>();
+	 GeneralGradedWork ggw = new GeneralGradedWork();
+	 ggw.setGrade("A");
+	 ggw.setName("Abott");
+	 GeneralAssignedWork genAssiWork = new GeneralAssignedWork();
+	 
+	 genGradWork.add(ggw);
+	 genAssiWork.setGeneralGradedWork(genGradWork);
+	 genAssiWork.setCategory("Assignment");
+	 assignedWork.add(genAssiWork);
+	 
+	 stud.setGeneralAssignedWork(assignedWork);
+	 stud.setStudentName("Geo");
+	 stud.setStudentId("1234");
+	 st.add(stud);
+	 grade.setGeneralStudent(st);
+	 generalGradeBook.setGeneralGrades(grade);
+	 
+	 List<String[]> studentList = new ArrayList<String[]>();
+	 studentList = generateAsList(generalGradeBook);
+	 try {
+		CSVWriter writer = new CSVWriter(new FileWriter(fileName));
+		writer.writeAll(studentList);
+		writer.close();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		 
+		/*ICsvBeanWriter beanWriter = null;
+	    CellProcessor[] processors = new CellProcessor[] {
+	            new NotNull(), // class number
+	    		new NotNull(), // student name
+	            new NotNull(), // student id
+	            new NotNull(), // assigned work category
+	            new NotNull(), // graded work
+	            new NotNull() // grade
+	    };
+	    try {
+	    	beanWriter = new CsvBeanWriter(new FileWriter(fileName),
+		            CsvPreference.STANDARD_PREFERENCE);
+		     
+		    String[] header = {"ClassNo", "Name", "ID", "Category", "Work", "Grade"};
+		    beanWriter.writeHeader(header);
+		    
+		    for(PrintableDO student : studentList) {
+		    	beanWriter.write(student, header , processors);
+		    }
+		    
+		    
+	    } catch (IOException ex) {
+	        System.err.println("Error writing the CSV file: " + ex);
+	    } finally {
+	        if (beanWriter != null) {
+	            try {
+	                beanWriter.close();
+	            } catch (IOException ex) {
+	                System.err.println("Error closing the writer: " + ex);
+	            }
+	        }
+	    }*/
+	    
+		return true;
+	}
+	
+	public List<String[]> generateAsList(GeneralGradeBook generalGradeBook) {
+		List<PrintableDO> studentList = new ArrayList<PrintableDO>();
+		List<String[]> printableList = new ArrayList<String[]>();
+		PrintableDO studentToBePrinted = new PrintableDO();
+		studentToBePrinted.setClassNumber(generalGradeBook.getClassNumber());
+		GeneralGradingSchema generalGradingSchema = generalGradeBook.getGeneralGradingSchema();
+		GeneralGrades grades = new GeneralGrades();
+		grades = generalGradeBook.getGeneralGrades();
+		int size = generalGradingSchema.getGradeItemList().size();
+		String[] headerString = new String[size+2];
+		headerString[0] = "Name";
+		headerString[1] = "ID";
+		for(int i=0; i< size; i++) {
+			headerString[i+2] = generalGradingSchema.getGradeItemList().get(i).getCategory();
+		}
+		headerString[size+2] = "Grade";
+		printableList.add(headerString);
+	
+		for(GeneralStudent generalStudent : grades.getGeneralStudent()) {
+			
+			//studentToBePrinted.setStudentId(generalStudent.getStudentId());
+			//studentToBePrinted.setStudentName(generalStudent.getStudentName());
+			for(GeneralAssignedWork generalAssignedWork : generalStudent.getGeneralAssignedWork()) {
+				//studentToBePrinted.setCategory(generalAssignedWork.getCategory());
+				for(GeneralGradedWork generalGradeWork : generalAssignedWork.getGeneralGradedWork()) {
+					printableList.add(new String[] {generalStudent.getStudentName(), generalStudent.getStudentId(),
+							generalGradeWork.getGrade()});
+					//studentToBePrinted.setGradedWork(generalGradeWork.getName());
+					//studentToBePrinted.setGrade(generalGradeWork.getGrade());
+				}
+			}
+			
+		}
+		studentList.add(studentToBePrinted);
+		
+		
+		return printableList;
+	}
+	
+	public static void main(String args[]) {
+		
+		CSVGradebookGenerator csvGen = new CSVGradebookGenerator();
+		csvGen.generateGradebook(new GeneralGradeBook());
+	}
+
+}

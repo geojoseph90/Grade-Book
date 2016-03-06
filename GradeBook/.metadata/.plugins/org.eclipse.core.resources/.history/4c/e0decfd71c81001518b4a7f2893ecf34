@@ -1,0 +1,107 @@
+{
+  "GradeBook": {
+    "-class": "CSE 598",
+    "GradingSchema": {
+      "GradeItem": [
+        {
+          "Category": "Exams",
+          "Percentage": "A"
+        },
+        {
+          "Category": "Assignments",
+          "Percentage": "B"
+        },
+        {
+          "Category": "Programming Assignments",
+          "Percentage": "C"
+        }
+      ]
+    },
+    "Grades": {
+      "Student": [
+        {
+          "Name": "Clark Kent",
+          "ID": "555-12-3456",
+          "AssignedWork": [
+            {
+              "-category": "Exams",
+              "GradedWork": [
+                {
+                  "Name": "Mid Term",
+                  "Grade": "C"
+                },
+                {
+                  "Name": "Final",
+                  "Grade": "A"
+                }
+              ]
+            },
+            {
+              "-category": "Assignments",
+              "GradedWork": [
+                {
+                  "Name": "Abbott",
+                  "Grade": "A"
+                },
+                {
+                  "Name": "CRC",
+                  "Grade": "A"
+                }
+              ]
+            },
+            {
+              "-category": "Programming Assignments",
+              "GradedWork": [
+              	{
+                	"Name": "Cretional Patterns",
+                	"Grade": "A"
+              	}
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "Bruce Wayne",
+          "ID": "555-12-6543",
+          "AssignedWork": [
+            {
+              "-category": "Exams",
+              "GradedWork": [
+                {
+                  "Name": "Mid Term",
+                  "Grade": "A"
+                },
+                {
+                  "Name": "Final",
+                  "Grade": "V"
+                }
+              ]
+            },
+            {
+              "-category": "Assignments",
+              "GradedWork": [
+                {
+                  "Name": "Abbott",
+                  "Grade": "A"
+                },
+                {
+                  "Name": "CRC",
+                  "Grade": "A"
+                }
+              ]
+            },
+            {
+              "-category": "Programming Assignments",
+              "GradedWork": [
+              	{
+                	"Name": "Cretional Patterns",
+                	"Grade": "B"
+              	}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

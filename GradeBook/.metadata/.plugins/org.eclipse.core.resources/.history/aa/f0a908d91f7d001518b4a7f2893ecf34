@@ -1,0 +1,63 @@
+package com.gradebook.factories;
+
+import java.util.List;
+
+import com.gradebook.DO.AssignedWork;
+import com.gradebook.DO.GradeBook;
+import com.gradebook.DO.GradedWork;
+import com.gradebook.DO.Student;
+
+public class GraduateGradebookFactory extends  GradebookFactory {
+	
+	private static String defaultFileLocation = "";
+
+	@Override
+	public boolean readGrades(String fileType) {
+		boolean result = false;
+		FileParserFactory fileParserFactory = new FileParserFactory();
+		FileParser fileParser = fileParserFactory.getParser(fileType);
+		GradeBook gradeBook = fileParser.parseFile(defaultFileLocation);
+		
+		if(gradeBook != null) {
+			result = calcuateGrades(gradeBook);
+		}
+		return result;
+	}
+
+	@Override
+	public boolean calcuateGrades(GradeBook gradeBook) {
+		String sampleGrade = null;
+		//Student sampleStudent = gradeBook.getGradeBook().getGrades().getStudent();
+		boolean result = false;
+		/*GradeCalculatorFactory gradeCalculatorFactory = new GradeCalculatorFactory();
+		if(sampleStudent != null) {
+			List<AssignedWork> assignedWorkList = sampleStudent.getAssignedWork();
+			if(assignedWorkList != null) {
+				GradedWork[] gradedWork = assignedWorkList.get(0).getGradedWork();
+				if(gradedWork != null) {
+					sampleGrade = gradedWork[0].getGrade();
+				}
+				
+			}
+		}
+		if(sampleGrade.matches("[0-9]+")) {
+			GradeCalculator gradeCalculator = gradeCalculatorFactory.getGradeCalculator("Number");
+			result = gradeCalculator.calculateGrade(gradeBook);
+		}
+		else {
+			GradeCalculator gradeCalculator = gradeCalculatorFactory.getGradeCalculator("Letter");
+			result = gradeCalculator.calculateGrade(gradeBook);
+		}
+		*/
+		return result;
+	}
+
+	@Override
+	public String generateGradebook() {
+		
+		return null;
+	}
+
+	
+
+}

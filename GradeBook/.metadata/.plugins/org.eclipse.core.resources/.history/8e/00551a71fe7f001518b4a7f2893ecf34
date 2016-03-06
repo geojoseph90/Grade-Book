@@ -1,0 +1,12 @@
+package com.gradebook.factories;
+
+public class FactoryProducer {
+	public GradebookFactory getFactory(String studentType) {
+		if(studentType == "Graduate") {
+			return new GraduateGradebookFactory();
+		}
+		else {
+			return new UndergraduateGradebookFactory();
+		}
+	}
+}

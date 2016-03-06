@@ -1,0 +1,56 @@
+package com.gradebook.DO;
+
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+@XmlRootElement(name="GradeBook")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class GradeBookXML {
+	
+	@XmlAttribute(name = "class", required = true)
+	private String classNumber = null;
+	
+	
+	//private GradingSchemaXML gradingSchema	= null;
+	
+	private GradesXML grades = null;
+	
+	public String getClassNumber() {
+		return classNumber;
+	}
+	
+	public void setClassNumber(String classNumber) {
+		this.classNumber = classNumber;
+	}
+	
+	
+	
+	@XmlElementWrapper(name="GradingSchema")
+	@XmlElement(name="GradeItem")
+	private List<GradeItemXML> gradeItemList = null;
+
+	public List<GradeItemXML> getGradeItemList() {
+		return gradeItemList;
+	}
+	
+   
+    public void setGradeItemList(List<GradeItemXML> gradeItemList) {
+		this.gradeItemList = gradeItemList;
+	}
+    @XmlElementWrapper(name="Grades")
+	@XmlElement(name="Student")
+    private List<StudentXML> student = null;
+    public List<StudentXML> getGeneralStudent() {
+		return student;
+	}
+    
+	public void setGeneralStudent(List<StudentXML> generalStudent) {
+		this.student = generalStudent;
+	}
+}

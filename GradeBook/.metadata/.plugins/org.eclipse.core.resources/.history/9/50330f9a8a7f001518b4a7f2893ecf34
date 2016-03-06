@@ -1,0 +1,50 @@
+package com.gradebook.client;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import com.gradebook.factories.FactoryProducer;
+import com.gradebook.factories.GradebookFactory;
+import com.gradebook.factories.GradebookGeneratorFactory;
+
+public class MainClass {
+	public static void main(String argsp[]) {
+		System.out.println("Enter the student type \n 1. Graduate \n 2. Undergraduate \n");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String studentType = null;
+		String outputType = null;
+		boolean resultOfReadAndProcess = false;
+		try {
+			studentType = br.readLine();
+		} catch (IOException e) {
+			System.out.println("User input reading operation failed");
+			e.printStackTrace();
+		}
+		FactoryProducer producer = new FactoryProducer();
+		GradebookFactory gradebookFactory = producer.getFactory(studentType);
+		if(studentType == "Graduate") {
+			resultOfReadAndProcess = gradebookFactory.readGrades("JSON");
+		}
+		else {
+			resultOfReadAndProcess = gradebookFactory.readGrades("XML");
+		}
+			
+		if(resultOfReadAndProcess) {
+			System.out.println("Enter the output format for gradebook. \n 1. HTML \n 2. CSV \n 2. XML \n");
+			try {
+				outputType = br.readLine();
+			} catch (IOException e) {
+				System.out.println("User input reading operation failed");
+				e.printStackTrace();
+			}
+		}
+		else {
+			System.out.println("Problem with the data set. Please check the input files");
+		}
+		GradebookGeneratorFactory gradeGeneratorFactory = new GradebookGeneratorFactory();
+		
+		
+	}
+
+}

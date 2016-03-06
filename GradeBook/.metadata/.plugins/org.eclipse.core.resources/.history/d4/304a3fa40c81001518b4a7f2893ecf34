@@ -1,0 +1,54 @@
+package com.gradebook.factories;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.gradebook.DO.AssignedWork;
+import com.gradebook.DO.GeneralGradeBook;
+import com.gradebook.DO.GeneralGradeItem;
+import com.gradebook.DO.GeneralGradedWork;
+import com.gradebook.DO.GeneralGrades;
+import com.gradebook.DO.GeneralGradingSchema;
+import com.gradebook.DO.Student;
+
+public class LetterGradeCalculator implements GradeCalculator{
+	public GeneralGradeBook calculateGrade(GeneralGradeBook gradeBook) {
+		GeneralGradingSchema generalGradingSchema = gradeBook.getGeneralGradingSchema();
+		Map<String,Integer> gradingMap = new HashMap<String,Integer>();
+		for(GeneralGradeItem gradeItem : generalGradingSchema.getGradeItemList()) {
+			gradingMap.put(gradeItem.getCategory(), gradeItem.getPrecentage());
+			
+		}
+		
+		List<GeneralGradeItem> generalGradingItem = generalGradingSchema.getGradeItemList();
+		GeneralGrades generalGrades = gradeBook.getGeneralGrades();
+		List<Student> generalStudentList = generalGrades.getGeneralStudent();
+		for(Student generalStudent : generalStudentList) {
+			String finalGrade = null;
+			List<String> gradeList = new ArrayList<String>();
+			
+			List<AssignedWork> generalAssignedWorkList = generalStudent.getGeneralAssignedWork();
+			for(AssignedWork generalAssignedWork : generalAssignedWorkList) {
+				for(GeneralGradedWork generalGradedWork : generalAssignedWork.getGeneralGradedWork()) {
+					
+						String grade = generalGradedWork.getGrade();
+						gradeList.add(grade);
+				}
+				
+			}
+			if(gradeList.size() %2 == 0) {
+				finalGrade = gradeList.get((gradeList.size()/2)+1);
+				
+			}
+			else {
+				finalGrade = gradeList.get((gradeList.size()/2)+1);
+			}
+			generalStudent.setFinalGrade(String.valueOf(finalGrade));
+		}
+		
+		return new  GeneralGradeBook();
+	}
+
+}

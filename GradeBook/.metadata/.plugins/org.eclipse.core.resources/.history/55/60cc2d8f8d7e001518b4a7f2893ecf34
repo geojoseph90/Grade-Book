@@ -1,0 +1,159 @@
+package com.gradebook.factories;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.gradebook.DO.GeneralAssignedWork;
+import com.gradebook.DO.GeneralGradeBook;
+import com.gradebook.DO.GeneralGradeItem;
+import com.gradebook.DO.GeneralGradedWork;
+import com.gradebook.DO.GeneralGrades;
+import com.gradebook.DO.GeneralGradingSchema;
+import com.gradebook.DO.GeneralStudent;
+import com.gradebook.DO.GradeBook;
+import com.gradebook.DO.GradeItem;
+
+
+public class JSONFileParser implements FileParser {
+	private GeneralGradeBook generalGradeBook = new GeneralGradeBook();
+	@Override
+	public GeneralGradeBook parseFile(String fileLocation) {
+			GradeBook gradeBook = null;
+			GeneralGradingSchema generalGradingSchema = new GeneralGradingSchema();
+			ArrayList<GeneralGradeItem> generalGradeItem = new ArrayList<GeneralGradeItem>();
+			GeneralGrades generalGrades = new GeneralGrades();
+			ArrayList<GeneralStudent> generalStudentList = new ArrayList<GeneralStudent>();
+			ArrayList<GeneralAssignedWork> generalAssignedWork = new ArrayList<GeneralAssignedWork>();
+			ArrayList<GeneralGradedWork> generalGradedWork = new ArrayList<GeneralGradedWork>();
+		
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader(fileLocation));
+			String jsonStr ="";
+			
+			while(true) {
+				String line = br.readLine();
+				if(line == null) {
+					break;
+				}
+				jsonStr += line;
+			}
+			JSONObject jsonObject = new JSONObject(jsonStr);
+	        JSONObject newJSON = jsonObject.getJSONObject("GradeBook");
+	        String classNumber = (String)newJSON.get("-class");
+	        generalGradeBook.setClassNumber(classNumber);
+	        JSONObject schemaObj = newJSON.getJSONObject("GradingSchema");
+	        JSONObject itemObj = new JSONObject(schemaObj.toString());
+	        JSONArray jsonArr = itemObj.getJSONArray("GradeItem");
+	        JSONObject gradeObject = newJSON.getJSONObject("Grades");
+	        //JSONObject studentObj = new JSONObject(gradeObject.toString());
+	        JSONArray studentArray = gradeObject.getJSONArray("Student");
+	        System.out.println(jsonArr.toString());
+	        // reading the grading schema 
+	        for(int i = 0; i< jsonArr.length(); i++ ) {
+	        	JSONObject item = jsonArr.getJSONObject(i);
+	        	GeneralGradeItem gradeItem = new GeneralGradeItem();
+	        	gradeItem.setCategory((String)item.get("Category"));
+	        	//validate the perecetage here as a digit . Less that 100 and more or equal to 0
+	        	gradeItem. setPrecentage(Integer.valueOf((String)item.get("Percentage")));
+	        	generalGradeItem.add(gradeItem);
+	        }
+	        generalGradingSchema.setGradeItemList(generalGradeItem);
+	        generalGradeBook.setGeneralGradingSchema(generalGradingSchema);
+	        //reading student list 
+	        for(int i =0 ;i<studentArray.length();i++) {
+	        	GeneralStudent generalStudent = new GeneralStudent();
+	        	JSONObject student = studentArray.getJSONObject(i);
+	        	generalStudent.setStudentId((String)student.get("ID"));
+	        	generalStudent.setStudentName((String)student.get("Name"));
+	        	
+	        	//JSONObject assignedObj = student.getJSONObject("AssignedWork");
+	        	JSONArray assingnedArray = student.getJSONArray("AssignedWork");
+	        	System.out.println("End");
+	        	for(int j= 0; i<assingnedArray.length();i++) {
+	        		JSONObject assignedWorkObj = assingnedArray.getJSONObject(j);
+	        		GeneralAssignedWork assignedWork = new  GeneralAssignedWork();
+	        		assignedWork.setCategory((String)assignedWorkObj.get("-category"));
+	        		JSONArray gradedWorkArray = assignedWorkObj.getJSONArray("GradedWork");
+	        		for(int k = 0; k<gradedWorkArray.length();k++) {
+	        			JSONObject gradedWorkObj = gradedWorkArray.getJSONObject(k);
+	        			GeneralGradedWork gradedWork = new GeneralGradedWork();
+	        			gradedWork.setGrade((String)gradedWorkObj.get("Grade"));
+	        			gradedWork.setName((String)gradedWorkObj.get("Name"));
+	        			generalGradedWork.add(gradedWork);
+	        			
+	        		}
+	        		assignedWork.setGeneralGradedWork(generalGradedWork);
+	        		generalAssignedWork.add(assignedWork);
+	        		
+	        	}
+	        	generalStudent.setGeneralAssignedWork(generalAssignedWork);
+	        	generalStudentList.add(generalStudent);
+	        	
+	        	
+	        }
+	        generalGrades.setGeneralStudent(generalStudentList);
+	        generalGradeBook.setGeneralGrades(generalGrades);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return generalGradeBook;
+	}
+	
+	/*public GeneralGradeBook mapToGeneral(GradeBook gradeBook) {
+		GeneralGradeBook generalGradeBook = new GeneralGradeBook();
+		/*GeneralGradingSchema generalGradingSchema = new GeneralGradingSchema();
+		ArrayList<GeneralGradeItem> generalGradeItem = new ArrayList<GeneralGradeItem>();
+		GeneralGrades generalGrades = new GeneralGrades();
+		ArrayList<GeneralStudent> generalStudent = new ArrayList<GeneralStudent>();
+		ArrayList<GeneralAssignedWork> generalAssignedWork = new ArrayList<GeneralAssignedWork>();
+		ArrayList<GeneralGradedWork> generalGradedWork = new ArrayList<GeneralGradedWork>();
+		if(gradeBook == null) {
+			return null;
+		}
+		String classNumber = gradeBook.getClass_();
+		GradingSchema gradingSchema = gradeBook.getGradingSchema();
+		for(GradeItem gradeItem : gradingSchema.getGradeItem()) {
+			GeneralGradeItem genGradeItem = new GeneralGradeItem();
+			genGradeItem.setCategory(gradeItem.getCategory());
+			genGradeItem.setPrecentage(gradeItem.getPercentage());
+			generalGradeItem.add(genGradeItem);
+		}
+		generalGradingSchema.setGradeItemList(generalGradeItem);
+		for(Student student : gradeBook.getGrades().getStudent()) {
+			GeneralStudent genStudent = new GeneralStudent();
+			genStudent.setStudentId(student.getID());
+			genStudent.setStudentName(student.getName());			
+			for(AssignedWork assingedWork : student.getAssignedWork()) {
+				GeneralAssignedWork genAssignedWork = new GeneralAssignedWork();
+				genAssignedWork.setCategory(assingedWork.getCategory());
+				for(GradedWork gradedWork : assingedWork.getGradedWork()) {
+					GeneralGradedWork genGradedWork = new GeneralGradedWork();
+					genGradedWork.setGrade(gradedWork.getGrade());
+					genGradedWork.setName(gradedWork.getName());
+					generalGradedWork.add(genGradedWork);
+				}
+				genAssignedWork.setGeneralGradedWork(generalGradedWork);
+				generalAssignedWork.add(genAssignedWork);
+			}
+			genStudent.setGeneralAssignedWork(generalAssignedWork);
+			generalStudent.add(genStudent);
+		}
+		generalGradeBook.setClassNumber(classNumber);
+		generalGradeBook.setGeneralGradingSchema(generalGradingSchema);
+		generalGradeBook.setGeneralGrades(generalGrades); */
+		/*return generalGradeBook;
+	} */
+	public static void main(String []args) {
+		FileParser fileParser = new JSONFileParser();
+		fileParser.parseFile("/Users/geo/Desktop/TestFiles/StudentGrades.json");
+		
+	}
+
+}

@@ -1,0 +1,19 @@
+package com.gradebook.factories;
+
+import com.gradebook.core.AssignmentMarkComputer;
+import com.gradebook.core.ExamMarkComputer;
+import com.gradebook.core.ProgrammingAssignmentMarkComputer;
+
+public class MarkComputerFactory {
+	public MarkComputer getMarkComputer(String workCategory) {
+		if(workCategory == "Assignment") {
+			return new AssignmentMarkComputer();
+		}
+		else if(workCategory == "Programming Assignment") {
+			return new ProgrammingAssignmentMarkComputer();
+		}
+		else {
+			return new ExamMarkComputer();
+		}
+	}
+}

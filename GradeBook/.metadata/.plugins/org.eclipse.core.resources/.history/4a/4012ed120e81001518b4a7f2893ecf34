@@ -1,0 +1,22 @@
+package com.gradebook.DO;
+
+import java.util.List;
+
+public class AssignedWork {
+	private String category = null;
+	private List<GradedWork> gradedWork = null;
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public List<GradedWork> getGeneralGradedWork() {
+		return gradedWork;
+	}
+	public void setGeneralGradedWork(List<GradedWork> generalGradedWork) {
+		this.gradedWork = generalGradedWork;
+	}
+	
+	
+}

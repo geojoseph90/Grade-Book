@@ -1,0 +1,5 @@
+package com.gradebook.core;
+
+public class ExamMarkComputer {
+
+}

@@ -1,0 +1,46 @@
+package com.gradebook.DO;
+
+public class GradeBookXML
+{
+	 	private String classNumber;
+
+	    private GradingSchemaXML GradingSchema;
+
+	    private Grades Grades;
+
+	    public String getClassNumber ()
+	    {
+	        return classNumber;
+	    }
+
+	    public void setClassNumber (String classNumber)
+	    {
+	        this.classNumber = classNumber;
+	    }
+
+	    public GradingSchemaXML getGradingSchema ()
+	    {
+	        return GradingSchema;
+	    }
+
+	    public void setGradingSchema (GradingSchemaXML GradingSchema)
+	    {
+	        this.GradingSchema = GradingSchema;
+	    }
+
+	    public Grades getGrades ()
+	    {
+	        return Grades;
+	    }
+
+	    public void setGrades (Grades Grades)
+	    {
+	        this.Grades = Grades;
+	    }
+
+	    @Override
+	    public String toString()
+	    {
+	        return "ClassPojo [class = "+classNumber+", GradingSchema = "+GradingSchema+", Grades = "+Grades+"]";
+	    }
+}

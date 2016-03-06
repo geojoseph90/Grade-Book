@@ -1,0 +1,9 @@
+package com.gradebook.factories;
+
+public class XMLGradebookGenerator implements GradebookGenerator{
+	@Override
+	public boolean generateGradebook() {
+		
+		return true;
+	}
+}

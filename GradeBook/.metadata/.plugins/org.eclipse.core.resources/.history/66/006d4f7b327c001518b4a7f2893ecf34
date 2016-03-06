@@ -1,0 +1,21 @@
+package com.gradebook.factories;
+
+import java.util.List;
+
+import com.gradebook.DO.AssignedWork;
+import com.gradebook.DO.GradeBook;
+import com.gradebook.DO.Student;
+
+public class NumberGradeCalculator implements GradeCalculator{
+	public boolean calculateGrade(GradeBook gradeBook) {
+		Student student = gradeBook.getGradeBook().getGrades().getStudent();
+		if(student != null) {
+			List<AssignedWork> assignedWorkList = student.getAssignedWork();
+			for(AssignedWork assignedWork : assignedWorkList) {
+				
+			}
+		}
+		return true;
+	}
+
+}

@@ -1,0 +1,19 @@
+package com.gradebook.factories;
+
+public class FileParserFactory {
+	public  FileParser getParserFactory(String fileType) {
+		
+		if(fileType == "JSON") {
+			return new JSONFileParser();
+		}
+		else if (fileType == "xml") {
+			XMLFileParserFactory xmlFileParser = new XMLFileParserFactory();
+			return xmlFileParser;
+		}
+		else {
+			FileParserFactory parser = new FileParserFactory();
+			return parser;
+		}
+		
+	}
+}
